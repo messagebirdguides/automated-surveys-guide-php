@@ -1,72 +1,57 @@
 <!doctype html>
 <html>
+    <head>
+        <title>Phone Survey Responses</title>
+        <style type="text/css">
+            body {
+                font-family:sans-serif;
+            }
+            table {
+                border:solid 1px #aaa;
+                width:100%;
+            }
+            td,th {
+                padding:10px;
+                border:solid 1px #555;
+            }
+            button {
+                border:solid 1px #555;
+                background-color:#ddd;
+                font-size:1em;
+            }
+        </style>
+        <script type="application/javascript">
+            function playAudio(callId, legId, recordingId) {
+                document.getElementById('audioplayer').innerHTML
+                    = '<audio autoplay="1"><source src="/play/' + callId
+                        + '/' + legId + '/' + recordingId
+                        + '" type="audio/wav"></audio>';
+            }
+        </script>
+    </head>
+    <body>
+        <h1 style="text-align:center;">Phone Survey Responses</h1>
+        
+        <table>            
+            <tr>
+                <th>Customer</th>
+                <th>Question</th>
+                <th>Answer</th>
+            </tr>
+            {% for p in participants %}
+                {% for r in p.responses %}
+                <tr>
+                    <td>{{p.number}}</td>
+                    <td>{{r.question}}</td>
+                    <td><button onclick="playAudio('{{p.callId}}','{{r.legId}}','{{r.recordingId}}')">Listen</button></td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
 
-<head>
-    <title>Ridesharing Admin</title>
-</head>
-
-<body>
-    <h1>Ridesharing Admin</h1>
-    <h2>All proxy numbers</h2>
-    <ul>{% for p in proxy_numbers %}
-        <li>{{p.number}}</li>
-    {% endfor %}</ul>
-    <h2>Current Rides</h2>
-    <table border="1">
-        <tr>
-            <th>Customer</th>
-            <th>Driver</th>
-            <th>Start</th>
-            <th>Destination</th>
-            <th>Date and Time</th>
-            <th>Proxy Number</th>
-        </tr>
-        {% for r in rides %}
-        <tr>
-            <td>{{r.customer}}</td>
-            <td>{{r.driver}}</td>
-            <td>{{r.start}}</td>
-            <td>{{r.destination}}</td>
-            <td>{{r.datetime}}</td>
-            <td>{{r.number}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <h2>Create a Ride</h2>
-    <form action="/createride" method="post">
-        <div>
-            <label>Customer:</label>
-            <br />
-            <select name="customer">{% for c in customers %}
-                <option value="{{c.id}}">{{c.name}} ({{c.number}})</option>
-            {% endfor %}</select>
+        <div id="audioplayer" style="visibility:hidden;">            
         </div>
-        <div>
-            <label>Driver:</label>
-            <br />
-            <select name="driver">{% for d in drivers %}
-                <option value="{{d.id}}">{{d.name}} ({{d.number}})</option>
-            {% endfor %}</select>
-        </div>
-        <div>
-            <label>Start (location):</label>
-            <br />
-            <input type="text" name="start" />
-        </div>
-        <div>
-            <label>Destination (location):</label>
-            <br />
-            <input type="text" name="destination" />
-        </div>
-        <div>
-            <label>Date and Time:</label>
-            <br />
-            <input type="text" name="datetime" />
-        </div>
-        <div>
-            <input type="submit" value="Create Ride" />
-        </div>
-    </form>
-</body>
-
+        
+        <p style="text-align:center;">A sample application brought to you by <a href="https://developers.messagebird.com/">MessageBird</a> :)</p>
+    </body>
 </html>
