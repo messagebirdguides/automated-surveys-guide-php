@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Ridesharing Admin</title>
+</head>
+
+<body>
+    <h1>Ridesharing Admin</h1>
+    <h2>All proxy numbers</h2>
+    <ul>{% for p in proxy_numbers %}
+        <li>{{p.number}}</li>
+    {% endfor %}</ul>
+    <h2>Current Rides</h2>
+    <table border="1">
+        <tr>
+            <th>Customer</th>
+            <th>Driver</th>
+            <th>Start</th>
+            <th>Destination</th>
+            <th>Date and Time</th>
+            <th>Proxy Number</th>
+        </tr>
+        {% for r in rides %}
+        <tr>
+            <td>{{r.customer}}</td>
+            <td>{{r.driver}}</td>
+            <td>{{r.start}}</td>
+            <td>{{r.destination}}</td>
+            <td>{{r.datetime}}</td>
+            <td>{{r.number}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>Create a Ride</h2>
+    <form action="/createride" method="post">
+        <div>
+            <label>Customer:</label>
+            <br />
+            <select name="customer">{% for c in customers %}
+                <option value="{{c.id}}">{{c.name}} ({{c.number}})</option>
+            {% endfor %}</select>
+        </div>
+        <div>
+            <label>Driver:</label>
+            <br />
+            <select name="driver">{% for d in drivers %}
+                <option value="{{d.id}}">{{d.name}} ({{d.number}})</option>
+            {% endfor %}</select>
+        </div>
+        <div>
+            <label>Start (location):</label>
+            <br />
+            <input type="text" name="start" />
+        </div>
+        <div>
+            <label>Destination (location):</label>
+            <br />
+            <input type="text" name="destination" />
+        </div>
+        <div>
+            <label>Date and Time:</label>
+            <br />
+            <input type="text" name="datetime" />
+        </div>
+        <div>
+            <input type="submit" value="Create Ride" />
+        </div>
+    </form>
+</body>
+
+</html>
